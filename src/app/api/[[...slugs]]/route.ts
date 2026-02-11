@@ -5,6 +5,7 @@ import { authMiddleware } from './auth';
 import z from 'zod';
 import { realtime, TypeMessage } from '@/lib/realTime';
 const ROOM_TTL_SECONDS = 60 * 10;
+import { cors } from "@elysiajs/cors"
 
 export const room = new Elysia({ prefix: '/room' })
     .post("/create", async () => {
@@ -79,7 +80,15 @@ export const message = new Elysia({ prefix: "/message" }).use(authMiddleware).po
 })
 
 
-export const app = new Elysia({ prefix: '/api/v1' }).use(room)
+export const app = new Elysia({ prefix: '/api/v1' }).use(
+    cors({
+        origin: 'https://real-time-chat-liart.vercel.app', // ← front‑end URL
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,          // send cookies / auth headers
+        maxAge: 86400,              // cache pre‑flight for 1 day
+    })
+).use(room)
     .use(message)
 
 
