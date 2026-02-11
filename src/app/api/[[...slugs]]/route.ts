@@ -82,7 +82,7 @@ export const message = new Elysia({ prefix: "/message" }).use(authMiddleware).po
 
 export const app = new Elysia({ prefix: '/api/v1' }).use(
     cors({
-        origin: '*', // ← front‑end URL
+        origin: 'https://real-time-chat-liart.vercel.app', // ← front‑end URL
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,          // send cookies / auth headers
